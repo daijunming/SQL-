@@ -1,0 +1,23 @@
+<![CDATA[
+			SELECT
+			a.bid as bid,
+      		a.cid as cid,
+			a.USER_ID as userId,
+			a.phone as phone,
+			a.channel_id as channelId,
+			a.play_time as cloudGameTime
+		FROM
+			T_USER_BASIC_BEHAVIOR a
+		WHERE
+			 NOT exists (
+				SELECT
+					b.cid
+				FROM
+					T_USER_BASIC_BEHAVIOR b
+				WHERE
+					b.op_date < #{zeroDate}
+				AND b.operate_type = '02' and b.cid = a.cid
+			)
+		AND op_date < #{zeroDate}
+		AND operate_type != '03'
+    ]]>
